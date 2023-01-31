@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { Track } from '@enlivensystems/ngx-audio-player';   
 import { WalletService } from './shared/wallet.service';
 import { Web3Service } from './shared/web3.service';
 @Component({
