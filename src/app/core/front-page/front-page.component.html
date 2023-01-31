@@ -1,0 +1,21 @@
+<div class="background"></div>
+<div class="opacity"></div>
+<div class="center-box">
+    <div class="title">
+        <h1>DeMusic</h1>
+        <sub class="v-label">V1.0</sub>
+    </div>
+    <div class="body">
+        <p>The first Decentralized Music Streaming Platform</p>
+    </div>
+    <div class="button-container">
+        <button class="btn btn-primary" *ngIf="state == ''" (click)="connectWallet()">Sign up with Wallet</button>
+        <button class="btn btn-primary" *ngIf="state == 'wallet_connected'" (click)="subscribePlan()">Subscribe now</button>
+        <button class="btn btn-success" (click)="launchApp()" *ngIf="state == 'flow_exist'">Launch App</button>
+    </div>
+    <div class="payment-container">
+        <p>$4/ month. Charged Secondly</p>
+    </div>
+</div>
+
+<!--Photo by Matthias Groeneveld: https://www.pexels.com/photo/retro-turntable-playing-vinyl-disc-in-living-room-4200747/-->
