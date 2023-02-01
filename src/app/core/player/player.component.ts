@@ -25,6 +25,8 @@ export class PlayerComponent {
     faChevronCircleRight = faChevronCircleRight;
     faVolumeHigh = faVolumeHigh;
     faVolumeLow = faVolumeLow;
+    currentTime: string = "00:00";
+    // raf: any;
     constructor(private ws: WalletService, private web3: Web3Service, private router: Router, private api: ApiService, private cd: ChangeDetectorRef){
         this.ws.walletUpdates$.subscribe(
             (data: ObservableModel) => {
@@ -62,12 +64,20 @@ export class PlayerComponent {
         }
         this.cd.detectChanges();
         this.player?.nativeElement.load();
+        this.currentTime = "00:00";
         this.player?.nativeElement.play();
+        // this.raf = requestAnimationFrame(this.updateTime);
     }
 
     getSongDuration(){
         let song = this.currentSong.duration.split(":");
         return +song[0]*60 + +song[1];
+    }
+
+    setCurrentTime(time: number){
+        let min = ('0' + Math.floor(time / 60).toString()).slice(-2);
+        let secs = ('0' + time % 60).slice(-2);
+        this.currentTime = min.toString() + ":" + secs.toString();
     }
     seekAudio($event: any){
         if(this.player){
@@ -106,6 +116,7 @@ export class PlayerComponent {
     updateTime($event: any){
         if(this.playrange){
             this.playrange.nativeElement.value = Math.floor($event.target.currentTime);
+            this.setCurrentTime(Math.floor($event.target.currentTime));
         }
     }
 }

@@ -1,3 +1,4 @@
 <div class="container-fluid nav-container">
+    <button class="btn btn-primary notification-button" *ngIf="userSubscriptionStatus == 1 || userSubscriptionStatus == 4" (click)="optInNotif()">Get Notifications</button>
     <button class="btn btn-danger unsubscribe-button" (click)="cancelPlan()">Cancel plan</button>
 </div>

@@ -5,6 +5,7 @@ import { BigNumber, ethers } from 'ethers';
 import { environment } from '../../environments/environment';
 import { WalletService } from './wallet.service';
 import { Framework } from '@superfluid-finance/sdk-core';
+import * as PushAPI from "@pushprotocol/restapi";
 @Injectable({
     providedIn: 'root'
 })
@@ -16,7 +17,7 @@ export class Web3Service {
     sf: any;
     superSigner: any;
     web3Updates$ = new BehaviorSubject<ObservableModel>({type: '', value: '', relevant: false});
-
+    pushUpdates$ = new BehaviorSubject<ObservableModel>({type: '', value: '', relevant: false});
     constructor(private ws: WalletService) {
         this.ws.walletUpdates$.subscribe(
             (data) => {
@@ -144,5 +145,35 @@ export class Web3Service {
         }catch(e){
             this.web3Updates$.next({type: 'error', value: 'Error while unsubscribing', relevant: true});
         }
+    }
+
+    async getSubscriptions(){
+        const wallet = await this.ws.getAddress();
+        const subscriptions = await PushAPI.user.getSubscriptions({
+            user: `eip155:5:${wallet}`, // user address in CAIP
+            env: 'staging'
+        });
+        if(subscriptions.findIndex((x: any) => x.channel == environment.EPNS_CHANNEL_ID) > -1){
+            this.pushUpdates$.next({type: 'already_subscribed', value: 'User Already Subscribed', relevant: true});
+        }
+        else{
+            this.pushUpdates$.next({type: 'not_subscriber', value: 'User hasn\'t subscribed', relevant: true});
+        }
+    }
+
+    async subscribeToChannel(){
+        const wallet = await this.ws.getAddress();
+        await PushAPI.channels.subscribe({
+            signer: await this.ws.getProvider().getSigner(),
+            channelAddress: environment.EPNS_CHANNEL_ADDRESS, // channel address in CAIP
+            userAddress: `eip155:5:${wallet}`, // user address in CAIP
+            onSuccess: () => {
+                this.pushUpdates$.next({type: 'subscribed', value: 'User subscribed', relevant: true});
+            },
+            onError: () => {
+                this.pushUpdates$.next({type: 'error', value: "Subscription failed", relevant: true})
+            },
+            env: 'staging'
+          })
     }
 }

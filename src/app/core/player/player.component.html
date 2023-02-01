@@ -27,7 +27,7 @@
             <div class="range-slider">
                 <input #playrange type="range" class="form-range range-slider-input" min=0 [max]="getSongDuration()" value=0 (change)="seekAudio($event)">
                 <div class="time-durations">
-                    <span>00:00</span>
+                    <span>{{currentTime}}</span>
                     <span>{{currentSong.duration}}</span>
                 </div>
             </div>
