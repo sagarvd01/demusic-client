@@ -17,6 +17,7 @@ export class PlayerComponent {
     currentSongIndex: number = 0;
     baseURL: string = "https://demusic.cyclic.app/song/";
     @ViewChild('player') player ?: ElementRef;
+    @ViewChild('playrange') playrange ?: ElementRef;
     playerLoaded: boolean = false;
     faCirclePlay = faCirclePlay;
     faCirclePause = faCirclePause;
@@ -100,5 +101,11 @@ export class PlayerComponent {
             this.currentSongIndex--;
         }
         this.playSong(this.songs[this.currentSongIndex], this.currentSongIndex);
+    }
+
+    updateTime($event: any){
+        if(this.playrange){
+            this.playrange.nativeElement.value = Math.floor($event.target.currentTime);
+        }
     }
 }
