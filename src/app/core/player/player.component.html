@@ -1,12 +1,19 @@
 <app-navbar></app-navbar>
 <div class="container player" *ngIf="songs">
-    <div class="row" *ngFor="let song of songs" (click)="playSong(song.index)">
-        <div class="col-1">
-            IM
-        </div>
-        <div class="col-10">
-            <h3>{{song.name}}</h3>
-            <h5>Artist: {{song.author}}</h5>
+    <div class="container-fluid">
+        <div class="row list" *ngFor="let song of songs" (click)="playSong(song.index)">
+            <div class="col-1 list-item logo-container">
+                <img class="icon" src="../../../assets/images/icon.png">
+            </div>
+            <div class="col-11 list-item song-info-container">
+                <div class="song-info">
+                    <h3 class="mb-0">{{song.name}}</h3>
+                    <h5 class="mb-0">Artist: {{song.author}}</h5>
+                </div>
+                <div class="song-duration">
+                    <span>{{song.duration}}</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>

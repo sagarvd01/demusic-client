@@ -11,9 +11,9 @@ export class NavbarComponent {
         
     }
 
-    cancelPlan(){
+    async cancelPlan(){
         if(confirm("Are you sure you want to cancel the plan? You will be redirected out of the player immediately.")){
-            console.log('cancel');
+            await this.web3.cancelPlan();
         }
     }
 
