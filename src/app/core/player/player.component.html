@@ -1,1 +1,17 @@
 <app-navbar></app-navbar>
+<div class="container player" *ngIf="songs">
+    <div class="row" *ngFor="let song of songs" (click)="playSong(song.index)">
+        <div class="col-1">
+            IM
+        </div>
+        <div class="col-10">
+            <h3>{{song.name}}</h3>
+            <h5>Artist: {{song.author}}</h5>
+        </div>
+    </div>
+</div>
+<div class="player-control" *ngIf="songs && currentSong">
+    <audio id="audioplayer" controls>
+        <source [src]="baseURL + currentSong" type="audio/mpeg" />
+    </audio>
+</div>

@@ -127,6 +127,7 @@ export class Web3Service {
             this.web3Updates$.next({type: 'flow_created', value: 'User succesfully subscribed', relevant: true});
         }
         catch(e: any){
+            console.log(e);
             this.web3Updates$.next({type: 'error', value: 'Error Creating Flow', relevant: true});
         }
     }

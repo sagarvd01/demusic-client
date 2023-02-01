@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ObservableModel } from 'src/app/model/data';
+import { ApiService } from 'src/app/shared/api.service';
 import { WalletService } from 'src/app/shared/wallet.service';
 import { Web3Service } from 'src/app/shared/web3.service';
 import { environment } from 'src/environments/environment';
@@ -11,7 +12,11 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./player.component.sass']
 })
 export class PlayerComponent {
-    constructor(private ws: WalletService, private web3: Web3Service, private router: Router){
+    songs: any;
+    currentSong ?: string;
+    baseURL: string = "https://demusic.cyclic.app/song/";
+
+    constructor(private ws: WalletService, private web3: Web3Service, private router: Router, private api: ApiService, private cd: ChangeDetectorRef){
         this.ws.walletUpdates$.subscribe(
             (data: ObservableModel) => {
             }
@@ -23,5 +28,25 @@ export class PlayerComponent {
                 }
             }
         )
+    }
+    ngOnInit(){
+        this.getMusicList();
+    }
+
+    getMusicList(){
+        this.api.getMusicList().then(
+            (data: any) => {
+                this.songs =  data;
+            }
+        ).catch(
+            (e: any) =>{
+                console.log(e);
+            }
+        )
+    }
+
+    playSong(index: string){
+        this.currentSong = index;
+        this.cd.detectChanges();
     }
 }
