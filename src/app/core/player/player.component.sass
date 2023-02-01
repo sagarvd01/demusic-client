@@ -3,6 +3,7 @@
         margin-top: 10px
         height: calc(100vh - 48px)
         background: #ccc
+        position: relative
         .list
             height: 50px
             margin-top: 5px
@@ -24,7 +25,35 @@
                             text-overflow: ellipsis
                 .icon
                     width: 30px
-                    
-    .player-control
-        position: fixed
-        bottom: 0px
+        .player-control
+            position: absolute
+            bottom: 5px
+            left: 50%
+            width: 100%
+            height: 150px
+            transform: translateX(-50%)
+            #audioplayer
+                display: none
+            .player-box
+                position: absolute
+                width: 100%
+                height: 150px
+                background: linear-gradient(126deg, rgba(39,10,242,1) 0%, rgba(15,50,124,1) 100%)
+                color: #fff
+                .track-info
+                    .current-track
+                        text-align: center
+                        margin-bottom: 2px
+                .range-slider
+                    padding: 0px 10px
+                    .time-durations
+                        display: flex
+                        justify-content: space-between
+                .control-buttons
+                    display: flex
+                    justify-content: center
+                    .button-group
+                        display: flex
+                        align-items: baseline
+                        .play-pause
+                            margin: 0px 10px

@@ -1,7 +1,7 @@
 <app-navbar></app-navbar>
 <div class="container player" *ngIf="songs">
     <div class="container-fluid">
-        <div class="row list" *ngFor="let song of songs" (click)="playSong(song.index)">
+        <div class="row list" *ngFor="let song of songs; let i = index" (click)="playSong(song, i)">
             <div class="col-1 list-item logo-container">
                 <img class="icon" src="../../../assets/images/icon.png">
             </div>
@@ -16,9 +16,35 @@
             </div>
         </div>
     </div>
-</div>
-<div class="player-control" *ngIf="songs && currentSong">
-    <audio #player id="audioplayer" controls>
-        <source [src]="baseURL + currentSong" type="audio/mpeg" />
-    </audio>
+    <div class="player-control" *ngIf="songs && currentSong">
+        <audio #player id="audioplayer" controls>
+            <source [src]="baseURL + currentSong.index" type="audio/mpeg" />
+        </audio>
+        <div class="player-box">
+            <div class="track-info">
+                <h4 class="current-track">{{currentSong.name}}</h4>
+            </div>
+            <div class="range-slider">
+                <input type="range" class="form-range range-slider-input" min=0 [max]="getSongDuration()" value=0 (change)="seekAudio($event)">
+                <div class="time-durations">
+                    <span>00:00</span>
+                    <span>{{currentSong.duration}}</span>
+                </div>
+            </div>
+            <div class="control-buttons">
+                <div class="button-group">
+                    <div class="prev">
+                        <fa-icon [icon]="faCircleChevronLeft" size="2x" (click)="prevTrack()"></fa-icon>
+                    </div>
+                    <div class="play-pause">
+                        <fa-icon [icon]="faCirclePlay" size="4x" (click)="playAudio()" *ngIf="player.paused"></fa-icon>
+                        <fa-icon [icon]="faCirclePause" size="4x" (click)="pauseAudio()" *ngIf="!player.paused"></fa-icon>
+                    </div>
+                    <div class="next">
+                        <fa-icon [icon]="faChevronCircleRight" size="2x" (click)="nextTrack()"></fa-icon>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

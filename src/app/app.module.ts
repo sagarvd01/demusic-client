@@ -8,6 +8,7 @@ import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { RouterModule } from '@angular/router';
 import { AuthGuard } from './shared/auth-guard.service';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { AuthGuard } from './shared/auth-guard.service';
     BrowserAnimationsModule,
     CoreModule,
     SharedModule,
-    RouterModule
+    RouterModule,
+    FontAwesomeModule
   ],
   providers: [
       AuthGuard

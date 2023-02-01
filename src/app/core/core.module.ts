@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FrontPageComponent } from './front-page/front-page.component';
 import { PlayerComponent } from './player/player.component';
 import { SharedModule } from '../shared/shared.module';
-
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -12,7 +12,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   imports: [
     CommonModule,
-    SharedModule
+    SharedModule,
+    FontAwesomeModule
   ],
   exports: [
     FrontPageComponent,

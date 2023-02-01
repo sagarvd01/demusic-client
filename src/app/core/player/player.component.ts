@@ -5,7 +5,7 @@ import { ApiService } from 'src/app/shared/api.service';
 import { WalletService } from 'src/app/shared/wallet.service';
 import { Web3Service } from 'src/app/shared/web3.service';
 import { environment } from 'src/environments/environment';
-
+import { faCircleChevronLeft, faChevronCircleRight, faCirclePlay, faCirclePause, faVolumeHigh, faVolumeLow } from '@fortawesome/free-solid-svg-icons';
 @Component({
   selector: 'app-player',
   templateUrl: './player.component.html',
@@ -13,10 +13,17 @@ import { environment } from 'src/environments/environment';
 })
 export class PlayerComponent {
     songs: any;
-    currentSong ?: string;
+    currentSong : any;
+    currentSongIndex: number = 0;
     baseURL: string = "https://demusic.cyclic.app/song/";
     @ViewChild('player') player ?: ElementRef;
-
+    playerLoaded: boolean = false;
+    faCirclePlay = faCirclePlay;
+    faCirclePause = faCirclePause;
+    faCircleChevronLeft = faCircleChevronLeft;
+    faChevronCircleRight = faChevronCircleRight;
+    faVolumeHigh = faVolumeHigh;
+    faVolumeLow = faVolumeLow;
     constructor(private ws: WalletService, private web3: Web3Service, private router: Router, private api: ApiService, private cd: ChangeDetectorRef){
         this.ws.walletUpdates$.subscribe(
             (data: ObservableModel) => {
@@ -46,10 +53,52 @@ export class PlayerComponent {
         )
     }
 
-    playSong(index: string){
-        this.currentSong = index;
+    playSong(song: any, index: number){
+        this.currentSong = song;
+        this.currentSongIndex = index;
+        if(!this.playerLoaded){
+            this.playerLoaded = true;
+        }
         this.cd.detectChanges();
         this.player?.nativeElement.load();
         this.player?.nativeElement.play();
+    }
+
+    getSongDuration(){
+        let song = this.currentSong.duration.split(":");
+        return +song[0]*60 + +song[1];
+    }
+    seekAudio($event: any){
+        if(this.player){
+            this.player.nativeElement.currentTime = $event.target.value;
+        }
+    }
+
+    playAudio(){
+        this.player?.nativeElement.play();
+    }
+
+    pauseAudio(){
+        this.player?.nativeElement.pause();
+    }
+
+    nextTrack(){
+        if(this.currentSongIndex == this.songs.length - 1){
+            this.currentSongIndex = 0;
+        }
+        else{
+            this.currentSongIndex++;
+        }
+        this.playSong(this.songs[this.currentSongIndex], this.currentSongIndex);
+    }
+
+    prevTrack(){
+        if(this.currentSongIndex == 0){
+            this.currentSongIndex = this.songs.length - 1;
+        }
+        else{
+            this.currentSongIndex--;
+        }
+        this.playSong(this.songs[this.currentSongIndex], this.currentSongIndex);
     }
 }
