@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ObservableModel } from 'src/app/model/data';
 import { ApiService } from 'src/app/shared/api.service';
@@ -15,6 +15,7 @@ export class PlayerComponent {
     songs: any;
     currentSong ?: string;
     baseURL: string = "https://demusic.cyclic.app/song/";
+    @ViewChild('player') player ?: ElementRef;
 
     constructor(private ws: WalletService, private web3: Web3Service, private router: Router, private api: ApiService, private cd: ChangeDetectorRef){
         this.ws.walletUpdates$.subscribe(
@@ -48,5 +49,7 @@ export class PlayerComponent {
     playSong(index: string){
         this.currentSong = index;
         this.cd.detectChanges();
+        this.player?.nativeElement.load();
+        this.player?.nativeElement.play();
     }
 }
