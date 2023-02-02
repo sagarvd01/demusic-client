@@ -40,9 +40,10 @@ export class Web3Service {
                 });
                 console.log(this.sf);
                 this.superSigner = this.sf.createSigner({signer: this.ws.getProvider().getSigner()});
-                console.log(await this.sf.loadSuperToken(environment.sDaix));
+                // console.log(await this.sf.loadSuperToken('environment.sDaix'));
+                // debugger;
                 this.sDaixContract = await this.sf.loadSuperToken(environment.sDaix); //await new ethers.Contract(environment.sDaix, environment.sDaixABI, this.ws.getProvider().getSigner());
-                window.sdai = this.sDaixContract;
+                // window.sdai = this.sDaixContract;
                 // await this.getTestDaixBalance();
                 await this.getTokenflow();
                 // console.log(this.contractInstance);
@@ -105,6 +106,7 @@ export class Web3Service {
                 });
                 this.web3Updates$.next({type: 'flow_rate_fetch', value: res.flowRate, relevant: true});
                 console.log(res);
+                return res;
             }
         }
         catch(e: any){
@@ -118,12 +120,13 @@ export class Web3Service {
             const flowRate: number = Math.floor(monthlyAmount / 3600 / 24 / 30);
             const tx = await this.contractInstance.addUser();
             await tx.wait();
+            // debugger;
             let flowData = await {
                 sender: await this.ws.getAddress(),
                 receiver: environment.ownerAddress,
-                flowRate: flowRate
+                flowRate: flowRate.toString()
             }
-            let flowOp = await this.sDaixContract.createFlow(flowData);
+            let flowOp = this.sDaixContract.createFlow(flowData);
             await flowOp.exec(this.superSigner);
             this.web3Updates$.next({type: 'flow_created', value: 'User succesfully subscribed', relevant: true});
         }
