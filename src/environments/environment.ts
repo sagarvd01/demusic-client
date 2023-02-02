@@ -2,7 +2,7 @@ export const environment = {
     "FLOW_RATE": 1543209876543,
     "EPNS_CHANNEL_ID": "0x15Aadb605F1F2D06F97946f5BaE84F3B70686231",
     "EPNS_CHANNEL_ADDRESS": "eip155:5:0x15Aadb605F1F2D06F97946f5BaE84F3B70686231",
-    "userRegistry": "0xa5f76dF5549F7569E1b418088999F288eF72B535",
+    "userRegistry": "0xAb49a54Fa02fD8F7D8ae619a4F34Df3da45249ba",
     "userRegistryABI": [
         {
             "inputs": [
@@ -25,13 +25,7 @@ export const environment = {
             "type": "function"
         },
         {
-            "inputs": [
-                {
-                    "internalType": "address",
-                    "name": "svr",
-                    "type": "address"
-                }
-            ],
+            "inputs": [],
             "stateMutability": "nonpayable",
             "type": "constructor"
         },
@@ -72,6 +66,32 @@ export const environment = {
             "name": "transferOwnership",
             "outputs": [],
             "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [],
+            "name": "unSubscribe",
+            "outputs": [],
+            "stateMutability": "nonpayable",
+            "type": "function"
+        },
+        {
+            "inputs": [
+                {
+                    "internalType": "address",
+                    "name": "user",
+                    "type": "address"
+                }
+            ],
+            "name": "checkUserSubsciptionStatus",
+            "outputs": [
+                {
+                    "internalType": "bool",
+                    "name": "",
+                    "type": "bool"
+                }
+            ],
+            "stateMutability": "view",
             "type": "function"
         },
         {
